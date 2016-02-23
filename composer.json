@@ -1,0 +1,15 @@
+{
+  "name": "blancomaberino/laraWebMerge",
+  "description": "Webmerge Package for Laravel 5.2.",
+  "keywords": [
+    "laravel",
+    "webmerge"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "mindastic",
+      "email": "blancomaberino@gmail.com"
+    }
+  ]
+}
