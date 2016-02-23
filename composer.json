@@ -11,5 +11,14 @@
       "name": "mindastic",
       "email": "blancomaberino@gmail.com"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "Mindastic\\LaraWebmerge\\": "src/"
+    }
+  },
+  "require": {
+    "illuminate/support": "~5",
+    "guzzlehttp/guzzle": "^6.1"
+  }
 }
