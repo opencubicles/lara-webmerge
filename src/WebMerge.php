@@ -132,11 +132,6 @@ class WebMerge {
 
     if($this->request_mode == 'test')
       $url .= "&test=1";
-
-    echo $url;
-
-    die();
-
     /*
   
     # for some weird reasons, requests via guzzle aren't working. 
