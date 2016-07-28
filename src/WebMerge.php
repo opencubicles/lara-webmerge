@@ -160,11 +160,9 @@ class WebMerge {
     $response = curl_exec ($ch);
 
     curl_close ($ch);
-    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $header = substr($response, 0, $header_size);
-    $body = substr($response, $header_size);
+   
      
-    return $body;
+    return $response;
 
   }
 }
