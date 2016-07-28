@@ -1,7 +1,7 @@
 <?php
 namespace Mindastic\LaraWebmerge;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../../../vendor/autoload.php';
 
 class WebMerge {
 
@@ -24,20 +24,24 @@ class WebMerge {
    */
   private $client = null;
 
+  private $request_mode =  null;
+
   /**
    * API Url
    * @var string
    */
-  private $apiUrl = 'https://www.webmerge.me/api/documents';
+  private $apiUrl = 'https://www.webmerge.me/';
 
   /**
    * Initializes a new WebMerge instance with API key and secret
    * @param string $key
    * @param string $secret
    */
-  public function __construct($key, $secret) {
+  public function __construct($key, $secret, $request_mode) {
     $this->key = $key;
     $this->secret = $secret;
+    $this->request_mode = $request_mode;
+
     $this->client = new \GuzzleHttp\Client([
       'base_uri' => $this->apiUrl,
       'auth' => [$this->key, $this->secret, 'digest']
@@ -116,5 +120,56 @@ class WebMerge {
 
     return $this->createDocument($name, $type, $output,
         $outputName, $outputDir, null, null, null, $content, $notification);
+  }
+
+  /*
+  *  https://www.webmerge.me/developers/documents
+  *  merge fields with document
+  */
+  public function doMerge($id, $key, $data, $options = null){
+    
+    $url =  "merge/".$id."/".$key."?download=1";
+
+    if($this->request_mode == 'test')
+      $url .= "&test=1";
+
+    echo $url;
+
+    die();
+
+    /*
+  
+    # for some weird reasons, requests via guzzle aren't working. 
+    # so using plain curl call here 
+
+    $response = $this->client->request('POST', $url, [
+        'form_params' => $data
+        ]
+    );
+
+    $code = $response->getStatusCode(); // 200
+    $array = $response->getBody()->getContents(); 
+    var_dump($array);
+
+    */
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $this->apiUrl.$url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,
+                http_build_query($data));
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec ($ch);
+
+    curl_close ($ch);
+    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $header = substr($response, 0, $header_size);
+    $body = substr($response, $header_size);
+     
+    return $body;
+
   }
 }

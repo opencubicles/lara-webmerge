@@ -8,7 +8,7 @@ class WebMergeServiceProvider extends ServiceProvider {
 
   public function register() {
     $this->app->bind('webmerge', function() {
-      return new WebMerge(config('webmerge.key'), config('webmerge.secret'));
+      return new WebMerge(config('webmerge.key'), config('webmerge.secret'), config('webmerge.request_mode'));
     });
     $this->mergeConfigFrom(
         __DIR__ . '/config/config.php', 'webmerge'
